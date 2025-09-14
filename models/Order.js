@@ -14,6 +14,36 @@ const orderSchema = new mongoose.Schema({
         min: 0
     },
 
+    shippingInfo: {
+        fullName: { 
+            type: String,
+             required: true 
+            },
+        phone: {
+             type: String,
+              required: true
+             },
+        address: { 
+            type: String, 
+            required: true
+         },
+        city: { type: String,
+             required: true 
+            },
+        postalCode: { 
+            type: String
+         },
+        country: { 
+            type: String, 
+            required: true 
+        }
+    },
+    status: {
+        type: String,
+        enum: ["pending", "paid", "shipped", "delivered", "cancelled"],
+        default: "pending"
+    },
+
 
     client: {
         type: mongoose.Schema.Types.ObjectId,
@@ -22,13 +52,13 @@ const orderSchema = new mongoose.Schema({
     },
     panier: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Panier',
-        required: true
+        ref: 'Panier'
+       
     },
     payment: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Payment',
-        required: true
+      
     }
 }, { timestamps: true, versionKey: false });
 

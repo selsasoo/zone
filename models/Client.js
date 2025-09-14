@@ -43,7 +43,8 @@ const clientSchema = new mongoose.Schema({
     phone: {
         type: String,
         required: true,
-        match: /^\+?[1-9]\d{7,14}$/,
+        match: /^(\+?\d{8,15}|0\d{8,14})$/
+
     },
     role: {
         type: String,
@@ -54,7 +55,7 @@ const clientSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Panier'
     }
-    }, { timestamps: true, versionKey: false });
+}, { timestamps: true, versionKey: false });
 
 clientSchema.plugin(AutoIncrement, { inc_field: 'Code_client' });
 
