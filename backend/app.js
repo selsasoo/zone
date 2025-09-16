@@ -5,6 +5,9 @@ const connectDB = require("./config/db");
 
 connectDB();
 
+const cors = require("cors");
+app.use(cors());
+
 // Middleware
 app.use(express.json());
 
@@ -13,11 +16,13 @@ const clientRoutes = require("./routes/clientRoutes");
 const produitRoutes = require("./routes/produitRoutes");
 const panierRoutes = require("./routes/panierRoutes");
 const orderRoutes = require("./routes/orderRoutes");
+const orderLineRoutes = require("./routes/orderLineRoutes");
 
 app.use("/api/clients", clientRoutes);
 app.use("/api/products", produitRoutes);
 app.use("/api/panier", panierRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/order-lines", orderLineRoutes);
 
 // 404 handler
 app.use((req, res) => {

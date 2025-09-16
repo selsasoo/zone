@@ -3,7 +3,7 @@ const router = express.Router();
 const { registerUser, loginUser, getProfile, updateProfile } = require("../controllers/clientController");
 const auth = require("../middleware/auth");
 const roleCheck = require("../middleware/role");
-const validateFields = require("../middleware/validateInput");
+const validateFields = require("../middleware/validateFields");
 const Client = require("../models/Client");
 
 // sign up 

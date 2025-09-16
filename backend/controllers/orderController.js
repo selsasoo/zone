@@ -1,6 +1,6 @@
-const Order = require("../models/orderModel");
-const OrderLine = require("../models/orderLineModel");
-const Panier = require("../models/panierModel");
+const Order = require("../models/Order");
+const OrderLine = require("../models/OrderLine");
+const Panier = require("../models/Panier");
 
 //  Get all orders for logged-in client
 const getClientOrders = async (req, res) => {

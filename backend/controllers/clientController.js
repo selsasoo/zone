@@ -5,13 +5,11 @@ const registerUser = async (req, res) => {
     try {
         const { name, username, email, password, phone } = req.body;
 
-            // find email 
         const existingEmail = await Client.findOne({ Email: email });
         if (existingEmail) {
             return res.status(400).json({ message: "Email already exists" });
         }
 
-        // find username 
         const existingUsername = await Client.findOne({ Username: username });
         if (existingUsername) {
             return res.status(400).json({ message: "Username already exists" });
@@ -21,12 +19,25 @@ const registerUser = async (req, res) => {
             name,
             Username: username,
             Email: email,
-            password,  
-            phone
+            password,
+            phone,
+            role: "user" 
         });
 
         await newClient.save();
-        res.status(201).json({ message: "Client registered successfully" });
+
+        res.status(201).json({
+            message: "Client registered successfully",
+            client: {
+                id: newClient._id,
+                name: newClient.name,
+                username: newClient.Username,
+                email: newClient.Email,
+                phone: newClient.phone,
+                role: newClient.role
+            }
+        });
+
     } catch (err) {
         res.status(500).json({ message: "Server error", error: err.message });
     }
@@ -35,16 +46,13 @@ const registerUser = async (req, res) => {
 loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
-         
-        // find client by email 
+
         const client = await Client.findOne({ Email: email });
         if (!client) return res.status(400).json({ message: "Invalid email or password" });
 
-         // compare password 
         const isMatch = await client.comparePassword(password);
         if (!isMatch) return res.status(400).json({ message: "Invalid email or password" });
 
-        // make a token 
         const token = jwt.sign(
             { id: client._id, role: client.role },
             process.env.JWT_SECRET,
@@ -96,13 +104,12 @@ updateProfile = async (req, res) => {
 
         if (name) client.name = name;
         if (username) {
-             // verify unique username 
             const existingUsername = await Client.findOne({ Username: username, _id: { $ne: client._id } });
             if (existingUsername) return res.status(400).json({ message: "Username already exists" });
             client.Username = username;
         }
         if (phone) client.phone = phone;
-        if (password) client.password = password;  
+        if (password) client.password = password;
 
         await client.save();
         res.status(200).json({ message: "Profile updated successfully", client });
@@ -110,4 +117,5 @@ updateProfile = async (req, res) => {
         res.status(500).json({ message: "Server error", error: err.message });
     }
 };
+
 module.exports = { registerUser, loginUser, getProfile, updateProfile };

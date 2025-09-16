@@ -40,15 +40,8 @@ const produitSchema = new mongoose.Schema({
         type: String,
         enum: ["pending", "paid", "failed", "refunded"],
         default: "pending",
-    },
-    panier: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Panier'
-        },
-    order: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Order'
     }
+
 }, { timestamps: true, versionKey: false });
 
 produitSchema.plugin(AutoIncrement, { inc_field: 'Code_produit' });

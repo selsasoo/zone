@@ -1,6 +1,6 @@
-const OrderLine = require("../models/orderLineModel");
-const Order = require("../models/orderModel");
-const Produit = require("../models/produitModel");
+const OrderLine = require("../models/OrderLine");
+const Order = require("../models/Order");
+const Produit = require("../models/Produit");
 
 //  Get all order lines for a specific order
 const getOrderLinesByOrder = async (req, res) => {
